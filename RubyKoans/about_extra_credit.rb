@@ -86,6 +86,7 @@ a bit different from the rules given here.
    
    attr_reader :rolls
 
+   ##============================================================================##
    
    def roll(x)
      @rolls = []
@@ -93,11 +94,13 @@ a bit different from the rules given here.
      @rolls
    end
 
+   ##============================================================================##
    
    def values
      @rolls
    end
 
+   ##============================================================================##
    
    def score(dice)
      face_counts = [0,0,0,0,0,0]
@@ -152,12 +155,14 @@ a bit different from the rules given here.
    attr_accessor :player_score
    attr_reader :diceSet
    
+   ##============================================================================##
    
    def initialize
      @player_score = 0
      @diceSet = DiceSet.new
    end
    
+   ##============================================================================##
    
    def throw_dice(dice_count)
      dice_roll = @diceSet.roll dice_count
