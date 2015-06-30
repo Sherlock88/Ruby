@@ -1,4 +1,4 @@
-require_relative "Rover"
+require_relative "RoverController"
 require "test/unit"
  
 class TestRover < Test::Unit::TestCase
@@ -6,7 +6,6 @@ class TestRover < Test::Unit::TestCase
   def setup
     @rover_controller = RoverController.new "5 5"
   end
-  
  
   def test_1
     @rover_controller.setLocation "1 2 N"

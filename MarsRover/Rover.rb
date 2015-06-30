@@ -59,12 +59,12 @@ class Rover
   attr_reader :direction
   
   
-  def initialize(pos_x, pos_y, direction, max_x, max_y)
+  def initialize(pos_x, pos_y, direction, plateau)
     @pos_x = pos_x
     @pos_y = pos_y
     @direction = direction
-    @max_x = max_x
-    @max_y = max_y
+    @max_x = plateau.max_x
+    @max_y = plateau.max_y
   end
   
   
@@ -80,6 +80,7 @@ class Rover
       @pos_x = (@pos_x == 0) ? 0 : (@pos_x - 1)
     end
   end
+  
   
   def move(cmd_rover)
     if cmd_rover == 'L'
@@ -120,43 +121,3 @@ class Rover
     "#{pos_x} #{pos_y} #{direction}"
   end
 end
-
-
-class RoverController
-  
-  def initialize(grid_size)
-    @max_x, @max_y = grid_size.split.map { |x| x.to_i }
-  end
-  
-  
-  def setLocation(initial_coordinates)
-    initial_coordinates = initial_coordinates.chomp
-    pos_x, pos_y, direction = initial_coordinates.split
-    @rover = Rover.new pos_x.to_i, pos_y.to_i, direction, @max_x, @max_y
-  end
-  
-  
-  def sendCommand(cmd_rover)
-    cmd_rover = cmd_rover.chomp.split(//)
-    cmd_rover.each { |cmd| @rover.move cmd }
-    @rover.getLocation
-  end
-
-end
-
-grid_size = gets
-max_x, max_y = grid_size.split.map { |x| x.to_i }
-while true
-  initial_coordinates = gets
-  if initial_coordinates == nil
-    break
-  end
-  initial_coordinates = initial_coordinates.chomp
-  pos_x, pos_y, direction = initial_coordinates.split
-  rover = Rover.new pos_x.to_i, pos_y.to_i, direction, max_x, max_y
-  cmd_rover = gets.chomp.split(//)
-  cmd_rover.each { |cmd| rover.move cmd }
-  puts rover.getLocation
-end
-
-
