@@ -1,3 +1,5 @@
+# For verbose output: ruby tc_Rover.rb -v
+
 require_relative "RoverController"
 require_relative "Rover"
 require_relative "Plateau"
