@@ -1,4 +1,5 @@
 class Plateau
+  
   attr_accessor :max_x
   attr_accessor :max_y
   
@@ -6,4 +7,5 @@ class Plateau
     @max_x = max_x
     @max_y = max_y
   end
+  
 end

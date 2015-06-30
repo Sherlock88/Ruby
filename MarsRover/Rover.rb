@@ -65,6 +65,8 @@ class Rover
     @direction = direction
     @max_x = plateau.max_x
     @max_y = plateau.max_y
+    
+    raise ArgumentError, "Rover location is outside of the plateau" if ((@pos_x > @max_x) || (@pos_y > @max_y))
   end
   
   
@@ -83,35 +85,17 @@ class Rover
   
   
   def move(cmd_rover)
-    if cmd_rover == 'L'
-      case @direction
-      when 'N'
-        @direction = 'W'
-      when 'S'
-        @direction = 'E'
-      when 'E'
-        @direction = 'N'
-      when 'W'
-        @direction = 'S'
-      end
+    rover_direction = { 'LN' => 'W', 'LS' => 'E', 'LE' => 'N', 'LW' => 'S', 'RN' => 'E', 'RS' => 'W', 'RE' => 'S', 'RW' => 'N' }
+    rover_direction.default = 'I'
+    if cmd_rover == 'M'
+      move_rover
     else
-      if cmd_rover == 'R'
-        case @direction
-        when 'N'
-          @direction = 'E'
-        when 'S'
-          @direction = 'W'
-        when 'E'
-          @direction = 'S'
-        when 'W'
-          @direction = 'N'
-        end
+      cmd_key = cmd_rover + @direction
+      new_direction = rover_direction[cmd_key]
+      if new_direction == 'I'
+        new_direction
       else
-        if cmd_rover == 'M'
-          move_rover
-        else
-          puts "Invalid command sent to the rover :("
-        end
+        @direction = new_direction
       end
     end
   end
