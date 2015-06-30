@@ -1,13 +1,14 @@
 
 module Constants
-  UNBLOCK_TIMEOUT = 5
-  DELETION_TIMEOUT = 15
+  UNBLOCK_TIMEOUT = 60
+  DELETION_TIMEOUT = 300
 end
 
 
 class Storage
   
   def initialize
+    @verbose = false
     @blocked_api_keys = Hash.new
     @unblocked_api_keys = Hash.new
   end
@@ -91,14 +92,18 @@ class Storage
       if cur_time - timestamp > Constants::UNBLOCK_TIMEOUT
         @blocked_api_keys.delete(api_key)
         @unblocked_api_keys[api_key] = cur_time
-        p "API key auto-unblocked: #{api_key}"
+        if @verbose
+          p "API key auto-unblocked: #{api_key}"
+        end
       end
     end
     
     @unblocked_api_keys.each do |api_key, timestamp|
       if cur_time - timestamp > Constants::DELETION_TIMEOUT
         @unblocked_api_keys.delete(api_key)
-        p "API key auto-deleted: #{api_key}"
+        if @verbose
+          p "API key auto-deleted: #{api_key}"
+        end
       end
     end
   end
