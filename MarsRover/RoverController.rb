@@ -12,13 +12,22 @@ class RoverController
   def setLocation(initial_coordinates)
     initial_coordinates = initial_coordinates.chomp
     pos_x, pos_y, direction = initial_coordinates.split
-    @rover = Rover.new pos_x.to_i, pos_y.to_i, direction, @plateau
+    begin
+      @rover = Rover.new pos_x.to_i, pos_y.to_i, direction, @plateau
+    rescue ArgumentError => ex
+      raise ArgumentError, ex
+    end
   end
   
   
   def sendCommand(cmd_rover)
     cmd_rover = cmd_rover.chomp.split(//)
-    cmd_rover.each { |cmd| @rover.move cmd }
+    cmd_rover.each { |cmd| 
+      new_direction = @rover.move cmd
+      if new_direction == 'I'
+        raise ArgumentError, "Invalid command sent to the Rover"
+      end
+    }
     @rover.getLocation
   end
 

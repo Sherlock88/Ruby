@@ -8,7 +8,7 @@ class TestRover < Test::Unit::TestCase
   def setup
     @plateau = Plateau.new 20, 15
     @rover = Rover.new 10, 8, 'N', @plateau
-        @rover_controller = RoverController.new "5 5"
+    @rover_controller = RoverController.new "5 5"
   end
 
   def test_plateau
@@ -88,6 +88,19 @@ class TestRover < Test::Unit::TestCase
     rover = Rover.new 5, 5, "W", @plateau
     rover.move 'R'
     assert_equal(rover.direction, 'N')
+  end
+  
+  def test_rover_controller_set_incorrect_location_outside_plateau
+    assert_raise ArgumentError do
+      @rover_controller.setLocation "100 50 N"
+    end
+  end
+  
+  def test_rover_controller_sent_incorrect_command_to_rover
+    @rover_controller.setLocation "5 5 N"
+    assert_raise ArgumentError do
+      @rover_controller.sendCommand "G"
+    end
   end
   
   def test_rover_movement_1
